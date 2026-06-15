@@ -2,6 +2,8 @@ node_modules/
 dist/
 .npm-cache/
 .DS_Store
+# QwenTTS Server 这个只保留个本地文件夹就行
+# qwen_tts_server/
 
 # Logs
 logs
@@ -29,3 +31,7 @@ lerna-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+
+# Release
+release/*
+!release/.gitkeep

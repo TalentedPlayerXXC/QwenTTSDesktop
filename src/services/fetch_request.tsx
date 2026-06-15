@@ -33,10 +33,10 @@ async function createFetcher(baseURL: string, options: FetchOptions) {
 }
 
 export const files = (options: FetchOptions) =>
-  createFetcher(isElectron ? 'http://192.168.50.251:3000' : '/file', options)
+  createFetcher(isElectron ? 'http://localhost:3000' : '/file', options)
 
 export const apis = (options: FetchOptions) =>
-  createFetcher(isElectron ? 'http://192.168.50.251:9880' : '/api', options)
+  createFetcher(isElectron ? 'http://localhost:9880' : '/api', options)
 
 export const qwens = (options: FetchOptions) =>
-  createFetcher(isElectron ? 'http://192.168.50.251:8000' : '/qwen', options)
+  createFetcher(isElectron ? 'http://localhost:8000' : '/qwen', options)

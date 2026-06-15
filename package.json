@@ -7,7 +7,10 @@
     "dev": "vite --host",
     "build": "vite build",
     "start": "electron .",
-    "preview": "vite build && electron ."
+    "preview": "vite build && electron .",
+    "pack:mac": "vite build && electron-builder --mac",
+    "pack:win": "vite build && electron-builder --win --x64",
+    "pack:linux": "vite build && electron-builder --linux"
   },
   "dependencies": {
     "@ant-design/icons": "6.x",
@@ -20,6 +23,38 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.0",
     "electron": "^33.0.0",
+    "electron-builder": "^26.15.3",
     "vite": "^6.0.0"
+  },
+  "build": {
+    "appId": "com.qwentts.desktop",
+    "productName": "QwenTTSDesktop",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "main.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "qwen_tts_server",
+        "to": "qwen_tts_server"
+      }
+    ],
+    "mac": {
+      "icon": "build/icon.png",
+      "target": "dmg",
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "icon": "build/icon.png",
+      "target": "nsis"
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "target": "AppImage"
+    }
   }
 }
