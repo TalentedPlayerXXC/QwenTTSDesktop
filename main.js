@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, shell } = require('electron')
 const path = require('path')
 const { spawn } = require('child_process')
 // import { app, BrowserWindow } from 'electron';
@@ -7,6 +7,7 @@ const { spawn } = require('child_process')
 
 const isDev = process.env.NODE_ENV === 'development';
 let serverProcess = null;
+let mainWindow = null;
 
 const serverPath = app.isPackaged
   ? path.join(process.resourcesPath, 'qwen_tts_server', 'qwen_tts_server')
@@ -35,7 +36,7 @@ function stopServer() {
 }
 
 function createWindow() {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     title: '一个简单的配音工具',
     width: 1400,
     height: 900,
@@ -47,14 +48,20 @@ function createWindow() {
     },
   });
 
+  // 处理外部链接，在默认浏览器中打开
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
+  });
+
   if (isDev) {
     // 开发环境可以局域网访问，方便调试
     // win.loadURL('http://localhost:5173');
-    win.loadFile(path.join(__dirname, 'dist', 'index.html'));
-    win.webContents.openDevTools(); // 打开开发者工具
+    mainWindow.loadFile(path.join(__dirname, 'dist', 'index.html'));
+    mainWindow.webContents.openDevTools(); // 打开开发者工具
   } else {
-    win.loadFile(path.join(__dirname, 'dist', 'index.html'));
-    win.setMenu(null); // 生产环境去掉菜单栏
+    mainWindow.loadFile(path.join(__dirname, 'dist', 'index.html'));
+    mainWindow.setMenu(null); // 生产环境去掉菜单栏
 
   }
 }
